@@ -29,22 +29,23 @@ namespace CUNApp.Controllers
                 ViewBag.Error = "Todos los campos son obligatorios";
                 return View();
             }
-            
-           // password = help.GetSHA256(password);
-           
+
+            // password = help.GetSHA256(password);
+            try
+            {
                 using (Models.CUNEntities1 db = new Models.CUNEntities1())
                 {
                     var oUserAd = (from d in db.Administrador
-                                 where d.Adm_Email.ToString().Equals(username.ToString().Trim()) && d.Adm_Password.ToString().Equals(password.ToString().Trim())
-                                 select d).FirstOrDefault();
+                                   where d.Adm_Email==username.Trim() && d.Adm_Password==password.Trim()
+                                   select d).FirstOrDefault();
                     var oUserEs = (from e in db.Estudiante
-                                 where e.Est_Email.ToString().Equals(username.ToString().Trim()) && e.Est_Password.Equals(password.ToString().Trim())
-                                 select e).FirstOrDefault();
+                                   where e.Est_Email==username.Trim() && e.Est_Password==password.Trim()
+                                   select e).FirstOrDefault();
                     var oUserDo = (from a in db.Docente
-                                 where a.Doc_Email.ToString().Equals(username.ToString().Trim()) && a.Doc_Password.ToString().Equals(password.ToString().Trim())
-                                 select a).FirstOrDefault();
+                                   where a.Doc_Email==username.Trim() && a.Doc_Password==password.Trim()
+                                   select a).FirstOrDefault();
 
-                    if (oUserAd == null||oUserDo==null||oUserEs==null)
+                    if (oUserAd == null || oUserDo == null || oUserEs == null)
                     {
                         ViewBag.Error = "Contraseña o usuario incorrectos.";
                         return View();
@@ -75,7 +76,13 @@ namespace CUNApp.Controllers
                     }
                     return RedirectToAction("Index", "Admin");
                 }
-          
+            }catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View();
+            }
+
+
         }
     }
 }
