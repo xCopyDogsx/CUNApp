@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="more options">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("CUN", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    @if (Session["User"] == null)
+                    {
+                        <li>@Html.ActionLink("Iniciar sesión", "Login", "Login")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Volver", "Index", "Admin")</li>
+                    }
+
+                    @if (Session["User"] != null)
+                    {
+                        if (Session["Rol"].Equals("Administrador"))
+                        {
+                            <li>@Html.ActionLink("Estudiantes", "Estudiantes", "Admin")</li>
+                            <li>@Html.ActionLink("Docentes", "Docentes", "Admin")</li>
+                            <li>@Html.ActionLink("Materias", "Materias", "Admin")</li>
+                            <li>@Html.ActionLink("Cursos", "Cursos", "Admin")</li>
+                        }
+                        <li>@Html.ActionLink("Salir", "Logout", "Login")</li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("https://unpkg.com/sweetalert/dist/sweetalert.min.js")
+    @Scripts.Render("~/Scripts/fontawesome.js")
+    @Scripts.Render("~/Scripts/jsdataTables.min.js")
+    @Scripts.Render("~/Scripts/dataTables.bootstrap.min.js")
+    @Scripts.Render("https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js")
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js")
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js")
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js")
+    @Scripts.Render("https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js")
+    @Scripts.Render("https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
